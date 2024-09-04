@@ -6,7 +6,9 @@ import 'homescreen.dart';
 
 class loginscreen extends StatelessWidget {
   final TextEditingController email = TextEditingController();
+  bool login = true;
   final TextEditingController password = TextEditingController();
+
 
   loginscreen({super.key});
 
@@ -31,6 +33,7 @@ class loginscreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: email,
                     decoration: InputDecoration(
                       labelText: 'Email',
@@ -53,26 +56,18 @@ class loginscreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      try{
                         login_logic.login_to_firebase(
+                          context,
                             email.text,
                             password.text
                         );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                HomeScreen(),
-                          ),
-                        );
-                        }catch(e){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Chutia h kya BSDK ?'),
-                            duration: Duration(seconds: 3), // Customize duration
-                          ),
-                        );
-                      }
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  HomeScreen(),
+                            ),
+                          );
                     },
                     child: const Text("Login"),
                   ),

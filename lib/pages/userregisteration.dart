@@ -77,7 +77,7 @@ class registerationScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Teri galati nhi h bhai , firebase hi chutia h'),
-                            duration: Duration(seconds: 1), // Customize duration
+                            duration: Duration(seconds: 1),
                           ),
                         );
                       }

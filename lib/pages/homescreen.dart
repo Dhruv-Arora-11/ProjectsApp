@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projects_app/fireabase_part/add_project.dart';
@@ -12,11 +11,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Example project list
-  final List<String> projects = [];
+   List<String> projects = [];
 
   String? username = FirebaseAuth.instance.currentUser?.email.toString();
-
 
   @override
   void initState() {
@@ -25,6 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final TextEditingController projectController = TextEditingController();
+
+  void addItem() async {
+    await add_project().add_your_project( projects, username!);
+    print("success");
+  }
 
 
   @override
@@ -42,10 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: projects.length, // Number of items in the list
+        itemCount: projects.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(projects[index]), // Display project name
+            title: Text(projects[index]),
             trailing: IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () {
@@ -58,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Function to display the Add Project Dialog
   void AlertBox(BuildContext context) {
     showDialog(
       context: context,
@@ -69,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: projectController, // Attach controller to the TextField
+                controller: projectController,
                 decoration: InputDecoration(
                   labelText: "Project Name",
                   border: OutlineInputBorder(),
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               child: Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
 
             ),
@@ -89,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 if (projectController.text.isNotEmpty) {
                    projects.add(projectController.text);
-                   add_project.add_your_project(context, projects, username!);
+                   print(projects);
+                   addItem();
+
+                   print("rujnning");
                    setState(() {});
                   projectController.clear();
                   Navigator.of(context).pop();
@@ -104,10 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Function to delete a project
   void _deleteProject(int index) {
     projects.removeAt(index);
-    add_project.add_your_project(context, projects, username!);
+    add_project().add_your_project(projects, username!);
     setState(() {});
   }
 }
